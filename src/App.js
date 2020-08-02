@@ -116,9 +116,6 @@ function App() {
           <p style={styles.p} onClick={() => deleteNote(item.id)}>
             Delete
           </p>,
-          <p style={styles.p} onClick={() => updateNote(item)}>
-            {item.completed ? 'completed' : 'mark completed'}
-          </p>,
         ]}
       >
         <List.Item.Meta title={item.name} description={item.description} />
