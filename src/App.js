@@ -6,6 +6,7 @@ import {
   createNote as CreateNote,
   deleteNote as DeleteNote,
 } from './graphql/mutations'
+import { onCreateNote } from './graphql/subscriptions'
 import { List, Input, Button } from 'antd'
 import 'antd/dist/antd.css'
 import { v4 as uuid } from 'uuid'
@@ -46,6 +47,18 @@ function App() {
 
   useEffect(() => {
     fetchNotes()
+    const subscription = API.graphql({
+      query: onCreateNote,
+    }).subscribe({
+      next: (noteData) => {
+        const note = noteData.value.data.onCreateNote
+        if (CLIENT_ID === note.clientId) return
+
+        dispatch({ type: 'ADD_NOTE', note })
+      },
+    })
+
+    return () => subscription.unsubscribe()
   }, [])
 
   async function createNote() {
