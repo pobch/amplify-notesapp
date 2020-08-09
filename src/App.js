@@ -92,7 +92,7 @@ function App() {
   async function updateNote(note) {
     const index = state.notes.findIndex((n) => n.id === note.id)
     const notes = [...state.notes]
-    notes[index] = { ...note, completed: !note.completed }
+    notes[index] = { ...state.notes[index], completed: !note.completed }
     dispatch({ type: 'SET_NOTES', notes })
     try {
       await API.graphql({
